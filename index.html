@@ -17,10 +17,9 @@
     </div>
 
     <script>
-        const namespace = 'athar-m-siddique';
-        const key = 'test_site_gh_hosted';
+        const uniqueKey = 'athar_test_site_gh_hosted_2026';
 
-        fetch(`https://countapi.mileshilliard.com/hit/${namespace}/${key}`)
+        fetch(`https://countapi.mileshilliard.com/api/v1/hit/${uniqueKey}`)
             .then(response => response.json())
             .then(data => {
                 document.getElementById('view-count').innerText = data.value;
