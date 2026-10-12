@@ -2,32 +2,60 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Compteur de visiteurs</title>
+    <title>Compteur de visiteurs Supabase</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; margin-top: 100px; background: #f4f4f9; }
         .counter_box { background: white; padding: 30px; border-radius: 8px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         h1 { color: #333; }
         #view-count { font-weight: bold; color: #0066cc; }
     </style>
+    <!-- Importation du client JavaScript officiel de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="counter_box">
         <h1>Je vous ai vu ! 👀</h1>
-        <p>Ce site a été visité <span id="view-count">Chargement...</span> fois. Or, vous êtes le seul à en avoir le lien...</p>
+        <p>Ce site a été visité <span id="view-count">Chargement...</span> fois.</p>
     </div>
 
     <script>
-        const uniqueKey = 'athar_test_site_gh_hosted_2026';
+        // 1. Vos identifiants Supabase (récupérés dans Project Settings > API)
+        const SUPABASE_URL = '[https://eaqedzidaehuvmvdwjwq.supabase.co](https://eaqedzidaehuvmvdwjwq.supabase.co)';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhcWVkemlkYWVodXZtdmR3andxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4MjY1NDMsImV4cCI6MjEwNzQwMjU0M30.vxkeKUCackC20glaR5UrzH-Z_hKu320zVqNvg9nAyn4';
 
-        fetch(`https://countapi.mileshilliard.com/api/v1/hit/${uniqueKey}`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('view-count').innerText = data.value;
-            })
-            .catch(error => {
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function gererCompteur() {
+            try {
+                // Étape A : Lire la valeur actuelle du compteur (on suppose qu'il y a une ligne avec id: 1)
+                let { data, error } = await supabaseClient
+                    .from('table')
+                    .select('compteur')
+                    .eq('id', 1)
+                    .single();
+
+                if (error) throw error;
+
+                let nouveauCompteur = data.compteur + 1;
+
+                // Étape B : Incrémenter la valeur dans la base de données
+                let { error: updateError } = await supabaseClient
+                    .from('table')
+                    .update({ compteur: nouveauCompteur })
+                    .eq('id', 1);
+
+                if (updateError) throw updateError;
+
+                // Étape C : Afficher le résultat sur la page
+                document.getElementById('view-count').innerText = nouveauCompteur;
+
+            } catch (error) {
                 document.getElementById('view-count').innerText = "indisponible";
-                console.error("Erreur:", error);
-            });
+                console.error("Erreur Supabase :", error);
+            }
+        }
+
+        gererCompteur();
     </script>
 </body>
 </html>
