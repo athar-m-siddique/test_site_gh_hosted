@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-
-
-
-
 <head>
     <meta charset="UTF-8">
     <title>Compteur de visiteurs</title>
-
-
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 100px; background: #f4f4f9; }
+        .counter_box { background: white; padding: 30px; border-radius: 8px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        #view-count { font-weight: bold; color: #0066cc; }
+    </style>
 </head>
-
-
-
-
-
 <body>
     <div class="counter_box">
         <h1>Je vous ai vu ! 👀</h1>
@@ -23,26 +17,19 @@
     </div>
 
     <script>
-        const namespace='athar-m-siddique';
-        const key='test_site_gh_hosted';
+        const namespace = 'athar-m-siddique';
+        const key = 'test_site_gh_hosted';
 
-        fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+        // Utilisation de la nouvelle URL de l'API
+        fetch(`https://countapi.mileshilliard.com/hit/${namespace}/${key}`)
             .then(response => response.json())
             .then(data => {
                 document.getElementById('view-count').innerText = data.value;
             })
             .catch(error => {
-                document.getElementById('view-count').innerText = "indosponible";
+                document.getElementById('view-count').innerText = "indisponible";
                 console.error("Erreur:", error);
-                
             });
     </script>
-
-
 </body>
-
-
-
-
-
 </html>
