@@ -26,7 +26,7 @@
         const namespace='athar-m-siddique';
         const key='test_site_gh_hosted';
 
-        fetch("https://api.countapi.xyz/hit/${namespace}/${key}")
+        fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
             .then(response => response.json())
             .then(data => {
                 document.getElementById('view-count').innerText = data.value;
