@@ -1,1 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
 
+
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Compteur de visiteurs</title>
+
+
+</head>
+
+
+
+
+
+<body>
+    <div class="counter_box">
+        <h1>Je vous ai vu ! 👀</h1>
+        <p>Ce site a été visité <span id="view-count">Chargement...</span> fois. Or, vous êtes le seul à en avoir le lien...</p>
+    </div>
+
+    <script>
+        const namespace='athar-m-siddique';
+        const key='test_site_gh_hosted';
+
+        fetch('https://api.countapi.xyz/hit/${namespace}/${key}')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('view-count').innerText = data.value;
+            })
+            .catch(error => {
+                document.getElementById('view-count').innerText = "indosponible";
+                console.error("Erreur:", error);
+                
+            });
+    </script>
+
+
+</body>
+
+
+
+
+
+</html>
